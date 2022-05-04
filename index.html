@@ -42,7 +42,7 @@
       "17": "13",
       "18": "14"
     };
-    const srcReg = /(\d+)\/(\d+)\(.\)(\d+)-.+(\d+)番コート/g;
+    const srcReg = /^(\d+)\/(\d+)\(.\)(\d+)-.+?(\d+)番コート$/g;
     const srcArea = document.getElementById("src");
     const btn = document.getElementById("create-link");
     const destArea = document.getElementById("dest");
@@ -53,10 +53,8 @@
         const srcText = srcArea.value;
         srcText.split(/\n/).forEach(
           line => {
-            console.log(typeof line);
-            let array = [...(String(line)).matchAll(srcReg)];
-            console.log(array);
-            
+            const array = [...line.matchAll(srcReg)][0];
+            if(!line || !array) return;
             const month = array[1];
             const day = array[2];
             const startTime = array[3];
