@@ -6,6 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>くにじま予約リンク作成</title>
+  <style>
+    main, header {
+      max-width: 400px;
+      margin: 10px auto;
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+    }
+    #src {
+      line-height: 1.5em;
+      height: 10rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -13,7 +27,9 @@
   <main>
     <section id="input">
       <h2></h2>
-      <textarea id="src"></textarea>
+      <textarea
+        id="src"
+        placeholder="7/9(土)17-18時　9番コート"></textarea>
       <button id="create-link">リンク作成</button>
     </section>
     <section id="output">
@@ -46,11 +62,15 @@
     const srcArea = document.getElementById("src");
     const btn = document.getElementById("create-link");
     const destArea = document.getElementById("dest");
+
     btn.addEventListener(
       "click",
       () => {
         destArea.innerHTML = "";
         const srcText = srcArea.value;
+        const now = new Date();
+        const targetYaer = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate()).getFullYear();
+
         srcText.split(/\n/).forEach(
           line => {
             const array = [...line.matchAll(srcReg)][0];
@@ -59,9 +79,9 @@
             const day = array[2];
             const startTime = array[3];
             const spot = courtToSpot[array[4]];
-            const url = `https://kunijima-tennis-sports.com/res/index.html?cmd=res&step=3&search_year=2022&search_month=${month}&search_day=${day}&spot=${spot}&res_time_start=${startTime}`;
+            const url = `https://kunijima-tennis-sports.com/res/index.html?cmd=res&step=3&search_year=${targetYaer}&search_month=${month}&search_day=${day}&spot=${spot}&res_time_start=${startTime}`;
             
-            destArea.innerHTML += `<li><a href="${url}" referrerpolicy="no-referrer">${line}</a></li>`;
+            destArea.innerHTML += `<li><a href="${url}" referrerpolicy="no-referrer" target="_blank">${line}</a></li>`;
 
           }
         );
